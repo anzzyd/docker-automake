@@ -100,7 +100,7 @@ if [ ${install_swoole} = "y" ] ; then
     ./configure
     make && make install
 
-    echo "#Added by build.sh (https://github.com/anzzyd/docker-automake)" >> /usr/local/lib/php.ini
+    echo "#Added by build.sh" >> /usr/local/lib/php.ini
     echo "extension=swoole" >> /usr/local/lib/php.ini
 fi
 
