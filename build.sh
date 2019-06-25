@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "====================================================================="
 echo "[信息]Docker环境OpenResty+PHP7+Swoole+Redis一键部署 By anzzy 适用于Ubuntu 16.04"
-echo "[信息]最后更新：2019-06-19"
+echo "[信息]最后更新：2019-06-25"
 echo "[信息]OpenResty版本：1.15.8.1"
 echo "[信息]PHP版本：7.3.6"
 echo "[信息]Swoole版本：4.3.5"
@@ -46,7 +46,7 @@ fi
 tar -xvf openresty-1.15.8.1.tar.gz
 cd openresty-1.15.8.1
 echo "[信息]开始编译OpenResty..."
-./configure
+./configure --with-http_v2_module
 make && make install
 
 cd ..
@@ -66,11 +66,17 @@ echo "[信息]正在处理PHP环境..."
 mv /usr/local/etc/php-fpm.d/www.conf.default /usr/local/etc/php-fpm.d/www.conf
 cd /usr/local/etc/
 wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/php-fpm.conf
-#chmod 777 php-fpm.conf
+
 
 echo "[信息]创建php.ini(生产环境)"
 cp /opt/php-7.3.6/php.ini-production /usr/local/lib/
 mv /usr/local/lib/php.ini-production /usr/local/lib/php.ini
+
+echo "[信息]正在设置error_log目录"
+mkdir /opt/php_errors
+chmod 755 /opt/php_errors
+echo "#Added by build.sh" >> /usr/local/lib/php.ini
+echo "error_log = /opt/php_errors" >> /usr/local/lib/php.ini
 
 echo "[信息]创建nginx用户..."
 useradd nginx
@@ -146,6 +152,24 @@ curl http://127.0.0.1
 echo "[信息]测试PHP页结果:"
 curl http://127.0.0.1/index.php
 
-echo "[信息]所有项目均部署完成"
+#优化内核
+echo "[信息]优化Linux内核参数..."
+echo "ulimit -n 1024576" >> /etc/security/limits.conf
+cd /etc
+wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/sysctl.conf -O sysctl.conf
+chmod 644 sysctl.conf
+echo "[信息]内核参数优化完成!"
+
+echo "[信息]配置自动启动..."
+cd /etc/init.d
+wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/start-web-service.sh
+chmod 755 start-web-service.sh
+update-rc.d start-web-service.sh defaults 90
+echo "[信息]自动启动配置完成"
+
+echo "[信息]所有项目均部署完成，建议重启操作系统。"
 echo "[信息]网站默认目录为：/opt/www/"
-echo "[信息]Redis端口为：16379(已开启UNIX Socket)"
+
+if [ ${install_redis} = "y" ] ; then
+    echo "[信息]Redis端口为：16379(已开启UNIX Socket)"
+fi
