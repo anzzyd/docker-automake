@@ -55,7 +55,7 @@ apt-get install -y inotify-tools
 #echo "[信息]安装常用工具"
 #apt-get install -y net-tools
 
-if [ ${skip_wget_download} == "y" ] ; then
+if [ ${skip_wget_download} = "y" ] ; then
     echo -e "\033[32m\033[1m【信息】开始下载OpenResty...\033[0m"
     wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/openresty-1.15.8.1.tar.gz
 fi
@@ -68,7 +68,7 @@ make && make install
 
 cd ..
 
-if [ ${skip_wget_download} == "y" ] ; then
+if [ ${skip_wget_download} = "y" ] ; then
     echo -e "\033[32m\033[1m【信息】开始下载PHP7.3.6...\033[0m"
     wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/php-7.3.6.tar.gz
 fi
