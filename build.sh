@@ -57,7 +57,7 @@ apt-get install -y inotify-tools
 
 if [ ${skip_wget_download} == "y" ] ; then
     echo -e "\033[32m\033[1m【信息】开始下载OpenResty...\033[0m"
-    wget https://openresty.org/download/openresty-1.15.8.1.tar.gz
+    wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/openresty-1.15.8.1.tar.gz
 fi
 
 tar -xvf openresty-1.15.8.1.tar.gz
@@ -70,7 +70,7 @@ cd ..
 
 if [ ${skip_wget_download} == "y" ] ; then
     echo -e "\033[32m\033[1m【信息】开始下载PHP7.3.6...\033[0m"
-    wget https://www.php.net/distributions/php-7.3.6.tar.gz
+    wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/php-7.3.6.tar.gz
 fi
 
 tar -xvf php-7.3.6.tar.gz
