@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "====================================================================="
 echo "[信息]Docker环境OpenResty+PHP7+Swoole+Redis一键部署 By anzzy 适用于Ubuntu 16.04"
-echo "[信息]最后更新：2019-06-25"
+echo "[信息]最后更新：2019-06-26"
 echo "[信息]OpenResty版本：1.15.8.1"
 echo "[信息]PHP版本：7.3.6"
 echo "[信息]Swoole版本：4.3.5"
@@ -23,8 +23,8 @@ stty erase '^H' && read -p "(默认: n):" install_swoole
 echo "是否安装Redis扩展？(y/n)"
 stty erase '^H' && read -p "(默认: n):" install_redis_extension
 
-echo "是否安装Redis Server？(y/n)"
-stty erase '^H' && read -p "(默认: n):" install_redis
+#echo "是否安装Redis Server？(y/n)"
+#stty erase '^H' && read -p "(默认: n):" install_redis
 
 echo "是否开启Zend OPcache？(y/n)"
 stty erase '^H' && read -p "(默认: n):" load_opcache
@@ -34,6 +34,9 @@ apt-get update
 
 echo "[信息]正在准备依赖项"
 apt-get install -y wget make gcc libpcre3-dev libssl-dev perl build-essential libpcre3 zlib1g zlib1g-dev libssl-dev curl vim libxml2-dev autoconf libcurl4-gnutls-dev
+
+apt-get install -y rsync
+apt-get install -y inotify-tools
 
 #echo "[信息]安装常用工具"
 #apt-get install -y net-tools
@@ -92,14 +95,14 @@ cd /opt/www
 echo "OpenResty Running..." > index.html
 echo "<?php echo 'Hello world'; ?>" > index.php
 
-if [ ${install_redis} = "y" ] ; then
-    echo "[信息]正在安装Redis Server..."
-    apt-get install -y redis-server
-    echo "[信息]正在处理Redis配置..."
-    cd /etc/redis/
-    wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/redis.conf -O redis.conf
-    service redis-server restart
-fi
+#if [ ${install_redis} = "y" ] ; then
+#    echo "[信息]正在安装Redis Server..."
+#    apt-get install -y redis-server
+#    echo "[信息]正在处理Redis配置..."
+#    cd /etc/redis/
+#    wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/redis.conf -O redis.conf
+#    service redis-server restart
+#fi
 
 if [ ${install_swoole} = "y" ] ; then
     echo "[信息]开始安装Swoole扩展..."
@@ -139,6 +142,15 @@ if [ ${install_redis_extension} = "y" ] ; then
     echo "[信息]Redis已加入php.ini"
 fi
 
+echo "[信息]正在配置rsync server..."
+echo "rsync_www:6wfOm5uTi2ZY2NFn" > /etc/rsync.password
+chmod 600 /etc/rsync.password
+useradd rsync -s /sbin/nologin -M
+
+wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/rsyncd.conf
+
+rm /var/run/rsyncd.pid
+rsync --daemon
 
 echo "[信息]正在启动PHP7..."
 /usr/local/sbin/php-fpm
@@ -170,6 +182,6 @@ echo "[信息]自动启动配置完成"
 echo "[信息]所有项目均部署完成，建议重启操作系统。"
 echo "[信息]网站默认目录为：/opt/www/"
 
-if [ ${install_redis} = "y" ] ; then
-    echo "[信息]Redis端口为：16379(已开启UNIX Socket)"
-fi
+#if [ ${install_redis} = "y" ] ; then
+#    echo "[信息]Redis端口为：16379(已开启UNIX Socket)"
+#fi

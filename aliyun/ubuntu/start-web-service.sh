@@ -11,3 +11,4 @@
 
 /usr/local/sbin/php-fpm
 /usr/local/openresty/bin/openresty
+rsync --daemon
