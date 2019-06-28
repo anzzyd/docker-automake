@@ -158,14 +158,22 @@ if [ ${install_redis_extension} = "y" ] ; then
 fi
 
 echo -e "\033[32m\033[1m【信息】正在配置rsync server...\033[0m"
-echo "rsync_www:6wfOm5uTi2ZY2NFn" > /etc/rsync.password
-chmod 600 /etc/rsync.password
+echo "rsync_www:6wfOm5uTi2ZY2NFn" > /etc/rsyncd-recv.password
+chmod 600 /etc/rsyncd-recv.password
 cd /etc
 wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/rsyncd.conf -O rsyncd.conf
 rm /var/run/rsyncd.pid
 rsync --daemon
 echo -e "\033[32m\033[1m【信息】rsync配置完毕\033[0m"
 cd
+
+
+echo -e "\033[32m\033[1m【信息】配置拉取密码中...\033[0m"
+echo "6wfOm5uTi2ZY2NFn" > /etc/rsyncd-pull-from-master.password
+chmod 600 /etc/rsyncd-pull-from-master.password
+echo -e "\033[32m\033[1m【信息】开始拉取最新项目文件...\033[0m"
+rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www
+echo -e "\033[32m\033[1m【信息】拉取项目文件完成!\033[0m"
 
 echo -e "\033[32m\033[1m【信息】正在启动PHP7...\033[0m"
 /usr/local/sbin/php-fpm

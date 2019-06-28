@@ -14,13 +14,12 @@ apt-get install -y wget
 apt-get install -y rsync
 apt-get install -y inotify-tools
 
-# 配置密码
-echo -e "\033[32m\033[1m【信息】配置Rsync密码...\033[0m"
-echo 6wfOm5uTi2ZY2NFn > /etc/rsyncd.password
-chmod 600 /etc/rsyncd.password
+# 配置推送密码
+echo -e "\033[32m\033[1m【信息】配置Rsync主动推送密码...\033[0m"
+echo 6wfOm5uTi2ZY2NFn > /etc/rsyncd-send.password
+chmod 600 /etc/rsyncd-send.password
 
-# 配置推送服务器（用于新ecs拉取项目文件）
-
+# 配置推送服务器（用于新ecs拉取master项目文件）
 echo -e "\033[32m\033[1m【信息】创建www目录\033[0m"
 mkdir /opt/www
 
@@ -28,6 +27,10 @@ echo -e "\033[32m\033[1m【信息】拉取master rsyncd.conf...\033[0m"
 cd /etc
 wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/webmaster/rsyncd.conf -O rsyncd.conf
 
+#用于新ecs拉取master项目文件密码
+echo -e "\033[32m\033[1m【信息】配置Slave拉取密码\033[0m"
+echo "rsync_www:6wfOm5uTi2ZY2NFn" > /etc/rsyncd-webslave-pull.password
+chmod 600 /etc/rsyncd-webslave-pull.password
 echo -e "\033[32m\033[1m【信息】关闭rsync server...\033[0m"
 PROCESS=`ps -ef|grep rsync|grep -v grep|grep -v PPID|awk '{ print $2}'`
 for i in $PROCESS

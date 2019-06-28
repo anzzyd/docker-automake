@@ -3,7 +3,7 @@
 # 启动监听，修改自动推送到web集群
 src=/opt/www/
 des=cydengine
-rsync_passwd_file=/etc/rsyncd.password
+rsync_passwd_file=/etc/rsyncd-send.password
 iplist=("172.17.210.142" "172.17.210.143")
 user=rsync_www
 cd ${src}
