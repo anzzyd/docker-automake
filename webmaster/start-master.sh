@@ -8,6 +8,8 @@
 # Short-Description: CYD-WebMaster-Services daemon
 # Description:       CYD-WebMaster-Services
 ### END INIT INFO
-rm /var/run/rsyncd.pid
+if [ -f "/var/run/rsyncd.pid" ];then
+    rm /var/run/rsyncd.pid
+fi
 rsync --daemon
 /opt/sender.sh

@@ -14,9 +14,6 @@ if [ ${start_build} != "y" ] ; then
     exit
 fi
 
-echo -e "\033[32m\033[1m【信息】是否下载OpenResty、PHP？\033[0m"
-stty erase '^H' && read -p "(默认: n):" skip_wget_download
-
 echo -e "\033[32m\033[1m【信息】是否安装Swoole扩展？\033[0m"
 stty erase '^H' && read -p "(默认: n):" install_swoole
 
@@ -55,7 +52,7 @@ apt-get install -y inotify-tools
 #echo "[信息]安装常用工具"
 #apt-get install -y net-tools
 
-if [ ${skip_wget_download} = "y" ] ; then
+if [ ! -f "/opt/openresty-1.15.8.1.tar.gz" ];then
     echo -e "\033[32m\033[1m【信息】开始下载OpenResty...\033[0m"
     wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/openresty-1.15.8.1.tar.gz -O openresty-1.15.8.1.tar.gz
 fi
@@ -68,7 +65,7 @@ make && make install
 
 cd ..
 
-if [ ${skip_wget_download} = "y" ] ; then
+if [ ! -f "/opt/php-7.3.6.tar.gz" ];then
     echo -e "\033[32m\033[1m【信息】开始下载PHP7.3.6...\033[0m"
     wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/php-7.3.6.tar.gz -O php-7.3.6.tar.gz
 fi
@@ -123,7 +120,7 @@ echo "<?php echo 'Hello world'; ?>" > index.php
 if [ ${install_swoole} = "y" ] ; then
     echo -e "\033[32m\033[1m【信息】开始安装Swoole扩展...\033[0m"
     cd /opt
-    wget https://github.com/swoole/swoole-src/archive/v4.3.5.tar.gz
+    wget https://github.com/swoole/swoole-src/archive/v4.3.5.tar.gz -O v4.3.5.tar.gz
     tar -xvf v4.3.5.tar.gz
     cd swoole-src-4.3.5
     phpize
@@ -145,7 +142,7 @@ fi
 if [ ${install_redis_extension} = "y" ] ; then
     echo -e "\033[32m\033[1m【信息】正在下载Redis扩展...\033[0m"
     cd /opt
-    wget https://pecl.php.net/get/redis-4.3.0.tgz
+    wget https://pecl.php.net/get/redis-4.3.0.tgz -O redis-4.3.0.tgz
     tar -xvf redis-4.3.0.tgz
     cd redis-4.3.0
     echo -e "\033[32m\033[1m【信息】正在编译Redis扩展...\033[0m"

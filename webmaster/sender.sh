@@ -1,15 +1,5 @@
 #!/bin/bash
 
-# 配置密码
-echo 6wfOm5uTi2ZY2NFn > /etc/rsyncd.password
-chmod 600 /etc/rsyncd.password
-
-# 配置推送服务器（用于新ecs拉取项目文件）
-cd /etc
-wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/webmaster/rsyncd.conf -O rsyncd.conf
-rm /var/run/rsyncd.pid
-rsync --daemon
-
 # 启动监听，修改自动推送到web集群
 src=/opt/www/
 des=cydengine

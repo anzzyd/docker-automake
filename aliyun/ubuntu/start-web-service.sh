@@ -11,5 +11,7 @@
 
 /usr/local/sbin/php-fpm
 /usr/local/openresty/bin/openresty
-rm /var/run/rsyncd.pid
+if [ -f "/var/run/rsyncd.pid" ];then
+    rm /var/run/rsyncd.pid
+fi
 rsync --daemon
