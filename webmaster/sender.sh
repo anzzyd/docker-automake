@@ -16,14 +16,14 @@ do
     if [[ $INO_EVENT =~ 'CREATE' ]] || [[ $INO_EVENT =~ 'MODIFY' ]] || [[ $INO_EVENT =~ 'CLOSE_WRITE' ]] || [[ $INO_EVENT =~ 'MOVED_TO' ]]
     then
         for ip in ${iplist[@]};do
-            rsync -rlptDqzcR --password-file=${rsync_passwd_file} $(dirname ${file}) ${user}@${ip}::${des}
+            rsync -rlptDqzcR --contimeout=10 --password-file=${rsync_passwd_file} $(dirname ${file}) ${user}@${ip}::${des}
         done
     fi
 
     if [[ $INO_EVENT =~ 'DELETE' ]] || [[ $INO_EVENT =~ 'MOVED_FROM' ]]
     then
         for ip in ${iplist[@]};do
-            rsync -rzR --delete --password-file=${rsync_passwd_file} $(dirname ${file}) ${user}@${ip}::${des}
+            rsync -rzR --delete --contimeout=10 --password-file=${rsync_passwd_file} $(dirname ${file}) ${user}@${ip}::${des}
         done
     fi
 
@@ -32,7 +32,7 @@ do
         if [ ! -d "$INO_FILE" ]
         then
             for ip in ${iplist[@]};do
-                rsync -rlptDqzcR --password-file=${rsync_passwd_file} $(dirname ${file}) ${user}@${ip}::${des}
+                rsync -rlptDqzcR --contimeout=10 --password-file=${rsync_passwd_file} $(dirname ${file}) ${user}@${ip}::${des}
             done
         fi
     fi

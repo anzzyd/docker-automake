@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Master服务端安装入口文件
+
 echo -e "\033[32m\033[1m【警告】请确保在全新环境中执行该脚本，是否继续？\033[0m"
 stty erase '^H' && read -p "(默认: n):" start_build
 if [ ${start_build} != "y" ] ; then

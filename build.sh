@@ -100,7 +100,7 @@ echo -e "\033[32m\033[1m【信息】正在拉取nginx.conf...\033[0m"
 cd /usr/local/openresty/nginx/conf/
 wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/nginx.conf -O nginx.conf
 mkdir /opt/www
-chown nginx:nginx /opt/www
+
 echo -e "\033[32m\033[1m【信息】已将网站默认目录改为 /opt/www/\033[0m"
 
 echo -e "\033[32m\033[1m【信息】创建测试文件...\033[0m"
@@ -167,13 +167,14 @@ rsync --daemon
 echo -e "\033[32m\033[1m【信息】rsync配置完毕\033[0m"
 cd
 
-
 echo -e "\033[32m\033[1m【信息】配置拉取密码中...\033[0m"
 echo "6wfOm5uTi2ZY2NFn" > /etc/rsyncd-pull-from-master.password
 chmod 600 /etc/rsyncd-pull-from-master.password
 echo -e "\033[32m\033[1m【信息】开始拉取最新项目文件...\033[0m"
 rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www
 echo -e "\033[32m\033[1m【信息】拉取项目文件完成!\033[0m"
+
+chown nginx:nginx -R /opt/www
 
 echo -e "\033[32m\033[1m【信息】正在启动PHP7...\033[0m"
 /usr/local/sbin/php-fpm
