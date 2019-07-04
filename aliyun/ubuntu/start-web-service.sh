@@ -9,9 +9,11 @@
 # Description:       CYD-WebServices
 ### END INIT INFO
 
+rsync --daemon
+rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www
+chown nginx:nginx -R /opt/www
 /usr/local/sbin/php-fpm
 /usr/local/openresty/bin/openresty
 if [ -f "/var/run/rsyncd.pid" ];then
     rm /var/run/rsyncd.pid
 fi
-rsync --daemon

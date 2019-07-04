@@ -1,7 +1,7 @@
 #!/bin/sh
 echo -e "\033[36m\033[1m=====================================================================\033[0m"
 echo -e "\033[36m\033[1m[信息]Docker环境\033[33m OpenResty + PHP7 + Swoole + Redis \033[36m一键部署\033[33m By anzzyd \033[36m适用于\033[33m Ubuntu 16.04\033[0m"
-echo -e "\033[36m\033[1m[信息]最后更新：\033[33m2019-06-28\033[0m"
+echo -e "\033[36m\033[1m[信息]最后更新：\033[33m2019-07-04\033[0m"
 echo -e "\033[36m\033[1m[信息]OpenResty版本：\033[33m1.15.8.1\033[0m"
 echo -e "\033[36m\033[1m[信息]PHP版本：\033[33m7.3.6\033[0m"
 echo -e "\033[36m\033[1m[信息]Swoole版本：\033[33m4.3.5\033[0m"
@@ -91,7 +91,7 @@ echo -e "\033[32m\033[1m【信息】正在设置error_log目录...\033[0m"
 mkdir /opt/php_errors
 chmod 755 /opt/php_errors
 echo "#Added by build.sh" >> /usr/local/lib/php.ini
-echo "error_log = /opt/php_errors" >> /usr/local/lib/php.ini
+echo "error_log = /opt/php_errors/log.txt" >> /usr/local/lib/php.ini
 
 echo -e "\033[32m\033[1m【信息】创建nginx用户...\033[0m"
 useradd nginx
@@ -174,7 +174,9 @@ echo -e "\033[32m\033[1m【信息】开始拉取最新项目文件...\033[0m"
 rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www
 echo -e "\033[32m\033[1m【信息】拉取项目文件完成!\033[0m"
 
+echo -e "\033[32m\033[1m【信息】设置目录归属为nginx...\033[0m"
 chown nginx:nginx -R /opt/www
+chown nginx:nginx -R /opt/php_errors
 
 echo -e "\033[32m\033[1m【信息】正在启动PHP7...\033[0m"
 /usr/local/sbin/php-fpm
