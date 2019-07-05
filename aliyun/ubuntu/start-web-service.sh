@@ -17,3 +17,4 @@ chown nginx:nginx -R /opt/www
 if [ -f "/var/run/rsyncd.pid" ];then
     rm /var/run/rsyncd.pid
 fi
+php /opt/cyd_reporter.php &

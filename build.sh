@@ -198,6 +198,10 @@ wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubun
 chmod 644 sysctl.conf
 echo -e "\033[32m\033[1m【信息】内核参数优化完成!\033[0m"
 
+echo -e "\033[32m\033[1m【信息】正在安装探针...\033[0m"
+cd /opt
+wget https://raw.githubusercontent.com/anzzyd/cyd_cluster_servers_reporter/master/cyd_reporter.php -O cyd_reporter.php
+
 echo -e "\033[32m\033[1m【信息】正在配置开机启动...\033[0m"
 cd /etc/init.d
 wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/start-web-service.sh -O start-web-service.sh
@@ -205,8 +209,11 @@ chmod 755 start-web-service.sh
 update-rc.d start-web-service.sh defaults 90
 echo -e "\033[34m\033[1m【信息】开机启动配置完成\033[0m"
 
-echo -e "\033[34m\033[1m【信息】所有项目均部署完成，建议重启操作系统。\033[0m"
+echo -e "\033[34m\033[1m【信息】所有项目均部署完成，正在重启操作系统...\033[0m"
 echo -e "\033[34m\033[1m【信息】网站默认目录为：/opt/www/\033[0m"
+
+reboot
+
 #if [ ${install_redis} = "y" ] ; then
 #    echo "[信息]Redis端口为：16379(已开启UNIX Socket)"
 #fi
