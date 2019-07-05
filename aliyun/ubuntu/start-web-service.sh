@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 rsync --daemon
-rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www
+rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www &
 chown nginx:nginx -R /opt/www
 /usr/local/sbin/php-fpm
 /usr/local/openresty/bin/openresty
