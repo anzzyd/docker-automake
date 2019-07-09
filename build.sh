@@ -93,12 +93,16 @@ chmod 755 /opt/php_errors
 echo "#Added by build.sh" >> /usr/local/lib/php.ini
 echo "error_log = /opt/php_errors/log.txt" >> /usr/local/lib/php.ini
 
+echo -e "\033[32m\033[1m【信息】设置时区为PRC\033[0m"
+echo "#Added by build.sh" >> /usr/local/lib/php.ini
+echo "date.timezone=PRC" >> /usr/local/lib/php.ini
+
 echo -e "\033[32m\033[1m【信息】创建nginx用户...\033[0m"
 useradd nginx
 
-echo -e "\033[32m\033[1m【信息】正在拉取nginx.conf...\033[0m"
+echo -e "\033[32m\033[1m【信息】正在从OSS中拉取nginx.conf...\033[0m"
 cd /usr/local/openresty/nginx/conf/
-wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/nginx.conf -O nginx.conf
+wget http://cyd-server-config.oss-cn-beijing.aliyuncs.com/nginx.conf -O nginx.conf
 mkdir /opt/www
 
 echo -e "\033[32m\033[1m【信息】已将网站默认目录改为 /opt/www/\033[0m"
@@ -217,3 +221,6 @@ reboot
 #if [ ${install_redis} = "y" ] ; then
 #    echo "[信息]Redis端口为：16379(已开启UNIX Socket)"
 #fi
+
+# 备用
+# crontab -l > conf && echo "* * * * * echo go123 >> /opt/test.txt" >> conf && crontab conf && rm -f conf

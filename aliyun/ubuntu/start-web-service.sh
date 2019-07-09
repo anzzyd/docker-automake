@@ -18,3 +18,4 @@ if [ -f "/var/run/rsyncd.pid" ];then
     rm /var/run/rsyncd.pid
 fi
 php /opt/cyd_reporter.php &
+curl 'http://172.17.210.141:50555' --data "method=\backend\log\ServerLog&run=put&log_from=start-web-service.sh&log_content=Service Started&log_server=$(cat /etc/hostname)"
