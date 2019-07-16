@@ -17,6 +17,11 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v2.9.7.16
+- 新增master.ip，用于内部解析
+- 调整start-web-service.sh解析为master.ip
+- start-master.sh 新增启动项 cyd_backend_server / cyd_udplogserver
+
 ##### v2.8.7.9
 - 调整php.ini的时区为PRC
 - 新增开机日志

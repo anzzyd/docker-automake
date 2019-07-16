@@ -13,3 +13,5 @@ if [ -f "/var/run/rsyncd.pid" ];then
 fi
 rsync --daemon
 bash /opt/sender.sh
+php /opt/phpruntime/cyd_backend_server.php &
+php /opt/phpruntime/cyd_udplogserver.php &

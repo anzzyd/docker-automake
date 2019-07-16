@@ -52,6 +52,9 @@ apt-get install -y inotify-tools
 #echo "[信息]安装常用工具"
 #apt-get install -y net-tools
 
+echo -e "\033[32m\033[1m【信息】写入master.ip HOST文件\033[0m"
+echo "172.17.210.141 master.ip master.ip" >> /etc/hosts
+
 if [ ! -f "/opt/openresty-1.15.8.1.tar.gz" ];then
     echo -e "\033[32m\033[1m【信息】开始下载OpenResty...\033[0m"
     wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/package/openresty-1.15.8.1.tar.gz -O openresty-1.15.8.1.tar.gz
@@ -175,7 +178,7 @@ echo -e "\033[32m\033[1m【信息】配置拉取密码中...\033[0m"
 echo "6wfOm5uTi2ZY2NFn" > /etc/rsyncd-pull-from-master.password
 chmod 600 /etc/rsyncd-pull-from-master.password
 echo -e "\033[32m\033[1m【信息】开始拉取最新项目文件...\033[0m"
-rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@172.17.210.141::cydpull /opt/www
+rsync -avzh --password-file=/etc/rsyncd-pull-from-master.password rsync_www@master.ip::cydpull /opt/www
 echo -e "\033[32m\033[1m【信息】拉取项目文件完成!\033[0m"
 
 echo -e "\033[32m\033[1m【信息】设置目录归属为nginx...\033[0m"
