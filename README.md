@@ -17,6 +17,9 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v3.1.7.22
+- 修复/opt/php_errors/log.txt权限归属为nginx，防止新上线机器无法记录PHP日志
+
 ##### v3.0.7.22
 - 修复start-master.sh启动sender.sh后不会启动backend api server以及udplog server的问题
 - 优化build.sh下载redis & swoole扩展，下载前先判断文件是否存在，存在则跳过

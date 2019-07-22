@@ -18,4 +18,5 @@ if [ -f "/var/run/rsyncd.pid" ];then
     rm /var/run/rsyncd.pid
 fi
 php /opt/cyd_reporter.php &
+chown nginx:nginx /opt/php_errors/log.txt
 curl 'http://master.ip:50555' --data "method=\backend\log\ServerLog&run=put&log_from=start-web-service.sh&log_content=Service Started&log_server=$(cat /etc/hostname)"
