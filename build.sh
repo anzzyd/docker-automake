@@ -127,7 +127,9 @@ echo "<?php echo 'Hello world'; ?>" > index.php
 if [ ${install_swoole} = "y" ] ; then
     echo -e "\033[32m\033[1m【信息】开始安装Swoole扩展...\033[0m"
     cd /opt
-    wget https://github.com/swoole/swoole-src/archive/v4.3.5.tar.gz -O v4.3.5.tar.gz
+    if [ ! -f "/opt/v4.3.5.tar.gz" ];then
+        wget https://github.com/swoole/swoole-src/archive/v4.3.5.tar.gz -O v4.3.5.tar.gz
+    fi
     tar -xvf v4.3.5.tar.gz
     cd swoole-src-4.3.5
     phpize
@@ -149,7 +151,9 @@ fi
 if [ ${install_redis_extension} = "y" ] ; then
     echo -e "\033[32m\033[1m【信息】正在下载Redis扩展...\033[0m"
     cd /opt
-    wget https://pecl.php.net/get/redis-4.3.0.tgz -O redis-4.3.0.tgz
+    if [ ! -f "/opt/redis-4.3.0.tgz" ];then
+        wget https://pecl.php.net/get/redis-4.3.0.tgz -O redis-4.3.0.tgz
+    fi
     tar -xvf redis-4.3.0.tgz
     cd redis-4.3.0
     echo -e "\033[32m\033[1m【信息】正在编译Redis扩展...\033[0m"

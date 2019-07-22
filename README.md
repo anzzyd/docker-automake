@@ -17,6 +17,10 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v3.0.7.22
+- 修复start-master.sh启动sender.sh后不会启动backend api server以及udplog server的问题
+- 优化build.sh下载redis & swoole扩展，下载前先判断文件是否存在，存在则跳过
+
 ##### v2.9.7.16
 - 新增master.ip，用于内部解析
 - 调整start-web-service.sh解析为master.ip
