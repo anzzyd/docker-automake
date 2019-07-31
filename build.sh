@@ -1,11 +1,10 @@
 #!/bin/sh
 echo -e "\033[36m\033[1m=====================================================================\033[0m"
-echo -e "\033[36m\033[1m[信息]Docker环境\033[33m OpenResty + PHP7 + Swoole + Redis \033[36m一键部署\033[33m By anzzyd \033[36m适用于\033[33m Ubuntu 16.04\033[0m"
-echo -e "\033[36m\033[1m[信息]最后更新：\033[33m2019-07-04\033[0m"
+echo -e "\033[36m\033[1m[信息]Docker环境\033[33m OpenResty + PHP7 + Swoole + Redis扩展 + RedisServer \033[36m一键部署\033[33m By anzzyd \033[36m适用于\033[33m Ubuntu 16.04\033[0m"
 echo -e "\033[36m\033[1m[信息]OpenResty版本：\033[33m1.15.8.1\033[0m"
 echo -e "\033[36m\033[1m[信息]PHP版本：\033[33m7.3.6\033[0m"
 echo -e "\033[36m\033[1m[信息]Swoole版本：\033[33m4.3.5\033[0m"
-echo -e "\033[36m\033[1m[信息]Redis版本：\033[33m4.3.0 stable\033[0m"
+echo -e "\033[36m\033[1m[信息]Redis扩展版本：\033[33m4.3.0 stable\033[0m"
 echo -e "\033[36m\033[1m=====================================================================\033[0m"
 
 echo -e "\033[32m\033[1m【警告】请确保在全新环境中执行该脚本，是否继续？\033[0m"
@@ -47,7 +46,8 @@ apt-get install -y libxml2-dev && \
 apt-get install -y autoconf && \
 apt-get install -y libcurl4-gnutls-dev && \
 apt-get install -y rsync && \
-apt-get install -y inotify-tools
+apt-get install -y inotify-tools && \
+apt-get install -y redis-server
 
 #echo "[信息]安装常用工具"
 #apt-get install -y net-tools
@@ -63,7 +63,7 @@ fi
 tar -xvf openresty-1.15.8.1.tar.gz
 cd openresty-1.15.8.1
 echo -e "\033[32m\033[1m【信息】开始编译OpenResty...\033[0m"
-./configure --with-http_v2_module
+./configure --with-http_v2_module --with-http_stub_status_module
 make && make install
 
 cd ..
@@ -196,10 +196,10 @@ echo -e "\033[32m\033[1m【信息】正在启动OpenResty...\033[0m"
 /usr/local/openresty/bin/openresty -s stop
 /usr/local/openresty/bin/openresty
 
-echo -e "\033[32m\033[1m【信息】测试静态页结果:\033[0m"
-curl http://127.0.0.1
-echo -e "\033[32m\033[1m【信息】测试PHP页结果:\033[0m"
-curl http://127.0.0.1/index.php
+#echo -e "\033[32m\033[1m【信息】测试静态页结果:\033[0m"
+#curl http://127.0.0.1
+#echo -e "\033[32m\033[1m【信息】测试PHP页结果:\033[0m"
+#curl http://127.0.0.1/index.php
 
 #优化内核
 echo -e "\033[32m\033[1m【信息】拉取 & 优化Linux内核参数...\033[0m"
@@ -219,6 +219,10 @@ wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubun
 chmod 755 start-web-service.sh
 update-rc.d start-web-service.sh defaults 90
 echo -e "\033[34m\033[1m【信息】开机启动配置完成\033[0m"
+
+echo -e "\033[32m\033[1m【信息】正在配置登录脚本...\033[0m"
+echo curl "\"http://master.ip:50555\"" --data "\"method=\backend\log\ServerLog&run=put&log_from=/etc/ssh/sshrc&log_content=IP:\${SSH_CLIENT%% *} Login to SSH&log_server=\$(cat /etc/hostname)\"" > /etc/ssh/sshrc
+echo -e "\033[34m\033[1m【信息】登录脚本配置完成\033[0m"
 
 echo -e "\033[34m\033[1m【信息】所有项目均部署完成，正在重启操作系统...\033[0m"
 echo -e "\033[34m\033[1m【信息】网站默认目录为：/opt/www/\033[0m"

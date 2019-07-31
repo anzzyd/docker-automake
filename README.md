@@ -17,6 +17,12 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v3.2.7.31
+- OpenResty增加--with-http_stub_status_module编译选项
+- 增加登录执行脚本sshrc
+- 移除build.sh中的测试结果代码
+- 新增部署时默认安装Redis server
+
 ##### v3.1.7.22
 - 修复/opt/php_errors/log.txt权限归属为nginx，防止新上线机器无法记录PHP日志
 
