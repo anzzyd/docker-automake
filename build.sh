@@ -107,8 +107,14 @@ echo -e "\033[32m\033[1m【信息】正在从OSS中拉取nginx.conf...\033[0m"
 cd /usr/local/openresty/nginx/conf/
 wget http://cyd-server-config.oss-cn-beijing.aliyuncs.com/nginx.conf -O nginx.conf
 mkdir /opt/www
-
 echo -e "\033[32m\033[1m【信息】已将网站默认目录改为 /opt/www/\033[0m"
+
+
+echo -e "\033[32m\033[1m【信息】正在拉取http.lua第三方扩展\033[0m"
+cd /usr/local/openresty/lualib/resty/
+wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/luamod/http.lua -O http.lua
+wget https://raw.githubusercontent.com/anzzyd/docker-automake/master/aliyun/ubuntu/luamod/http_headers.lua -O http_headers.lua
+echo -e "\033[32m\033[1m【信息】http.lua拉取完成\033[0m"
 
 echo -e "\033[32m\033[1m【信息】创建测试文件...\033[0m"
 cd /opt/www

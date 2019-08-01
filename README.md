@@ -17,6 +17,9 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v3.3.8.1
+- 新增部署时安装http.lua和http_headers.lua扩展
+
 ##### v3.2.7.31
 - OpenResty增加--with-http_stub_status_module编译选项
 - 增加登录执行脚本sshrc
