@@ -17,6 +17,15 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v3.4.8.16
+- 新增安装subversion
+- 新增内部域名解析svn.ip
+
+ ###### 禁用rsync服务(如需恢复取消注释即可)
+ 1. start-web-service.sh禁用rsync服务启动和项目拉取功能
+ 2. start-master.sh禁用rsync服务和sender.sh脚本
+ 3. build.sh禁用rsync相关（185\192\193\194）行
+
 ##### v3.3.8.1
 - 新增部署时安装http.lua和http_headers.lua扩展
 
