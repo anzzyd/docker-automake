@@ -78,7 +78,7 @@ fi
 tar -xvf php-7.3.6.tar.gz
 cd php-7.3.6
 echo -e "\033[32m\033[1m【信息】开始编译PHP7.3.6...\033[0m"
-./configure --enable-fpm --with-curl --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-fpm-user=nginx --with-fpm-group=nginx
+./configure --enable-fpm --enable-mbstring --with-curl --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-fpm-user=nginx --with-fpm-group=nginx
 make && make install
 
 echo -e "\033[32m\033[1m【信息】正在处理PHP环境...\033[0m"

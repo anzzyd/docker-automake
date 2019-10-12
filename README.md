@@ -17,6 +17,10 @@ PHP包含的扩展
 
 ### 更新日志
 
+##### v3.5.10.12
+- PHP编译参数新增 enable-mbstring
+- 新增example配置样例
+
 ##### v3.4.8.16
 - 新增安装subversion
 - 新增内部域名解析svn.ip
