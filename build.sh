@@ -5,6 +5,7 @@ echo -e "\033[36m\033[1m[信息]OpenResty版本：\033[33m1.15.8.1\033[0m"
 echo -e "\033[36m\033[1m[信息]PHP版本：\033[33m7.3.6\033[0m"
 echo -e "\033[36m\033[1m[信息]Swoole版本：\033[33m4.3.5\033[0m"
 echo -e "\033[36m\033[1m[信息]Redis扩展版本：\033[33m4.3.0 stable\033[0m"
+echo -e "\033[36m\033[1m[信息]mcrypt扩展版本：\033[33m1.0.2\033[0m"
 echo -e "\033[36m\033[1m=====================================================================\033[0m"
 
 echo -e "\033[32m\033[1m【警告】请确保在全新环境中执行该脚本，是否继续？\033[0m"
@@ -18,6 +19,9 @@ stty erase '^H' && read -p "(默认: n):" install_swoole
 
 echo -e "\033[32m\033[1m【信息】是否安装Redis扩展？\033[0m"
 stty erase '^H' && read -p "(默认: n):" install_redis_extension
+
+echo -e "\033[32m\033[1m【信息】是否安装mcrypt扩展？\033[0m"
+stty erase '^H' && read -p "(默认: n):" install_mcrypt_extension
 
 #echo "是否安装Redis Server？(y/n)"
 #stty erase '^H' && read -p "(默认: n):" install_redis
@@ -174,6 +178,30 @@ if [ ${install_redis_extension} = "y" ] ; then
     echo "#Added by build.sh" >> /usr/local/lib/php.ini
     echo "extension=redis" >> /usr/local/lib/php.ini
     echo -e "\033[32m\033[1m【信息】redis.so现已加入肯德基全家桶\033[0m"
+fi
+
+if [ ${install_mcrypt_extension} = "y" ] ; then
+    echo -e "\033[32m\033[1m【信息】正在安装依赖库\033[0m"
+    #apt-get install -y libc-dev
+    #apt-get install -y pkg-config
+    apt-get install -y libmcrypt-dev
+    echo -e "\033[32m\033[1m【信息】正在下载mcrypt扩展...\033[0m"
+    cd /opt
+    if [ ! -f "/opt/mcrypt-1.0.2.tar" ];then
+        wget https://pecl.php.net/get/mcrypt-1.0.2.tar -O mcrypt-1.0.2.tar
+    fi
+    tar -xvf mcrypt-1.0.2.tar
+    cd mcrypt-1.0.2
+    echo -e "\033[32m\033[1m【信息】正在编译mcrypt扩展...\033[0m"
+    phpize
+    ./configure
+    make && make install
+
+    echo -e "\033[32m\033[1m【信息】mcrypt扩展编译完成\033[0m"
+
+    echo "#Added by build.sh" >> /usr/local/lib/php.ini
+    echo "extension=mcrypt" >> /usr/local/lib/php.ini
+    echo -e "\033[32m\033[1m【信息】mcrypt.so现已加入肯德基全家桶\033[0m"
 fi
 
 echo -e "\033[32m\033[1m【信息】正在配置rsync server...\033[0m"
